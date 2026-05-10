@@ -1,0 +1,25 @@
+# 虚拟环境
+venv/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 敏感数据（登录状态）
+auth.json
+
+# 运行产物
+seq_counter.json
+status.json
+oa_auto.log
+*.log
+
+# 截图
+screenshots/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
