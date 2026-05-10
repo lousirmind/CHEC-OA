@@ -12,9 +12,9 @@ DEFAULT_TIMEOUT = 30000
 SHORT_TIMEOUT = 10000
 
 # ================== 邮件配置（请根据实际情况修改） ==================
-SENDER_EMAIL = "1774316986@qq.com"          # 发件人QQ邮箱
-SMTP_PASSWORD = "fummtmoxbexbfbfg"  # QQ邮箱SMTP授权码（不是登录密码）
-RECIPIENT_EMAIL = "lz156970@gmail.com"       # 收件人邮箱
+SENDER_EMAIL = "your-email@qq.com"          # 发件人QQ邮箱
+SMTP_PASSWORD = "your-smtp-auth-code"  # QQ邮箱SMTP授权码（不是登录密码）
+RECIPIENT_EMAIL = "recipient@email.com"       # 收件人邮箱
 
 # 发信人编号映射表（）
 SENDER_CODE_MAP = {
@@ -36,14 +36,14 @@ SENDER_CODE_MAP = {
 
 # 来源邮箱 -> 来源编号 映射
 SOURCE_CODE_MAP = {
-    "darport@chec.bj.cn": "MLD",
-    "tzdmgp@chec.bj.cn": "DMGP5-7",
+    "source1@company.com": "MLD",
+    "source2@company.com": "DMGP5-7",
 }
 
 # 来源邮箱 -> 项目名称 映射
 SOURCE_PROJECT_MAP = {
-    "darport@chec.bj.cn": "坦桑尼亚达港马林迪泊位改扩建工程项目",
-    "tzdmgp@chec.bj.cn": "坦桑尼亚达港1-7号泊位堆场修复工程项目",
+    "source1@company.com": "某某工程项目名称",
+    "source2@company.com": "另一个项目名称",
 }
 
 COUNTER_FILE = "seq_counter.json"
@@ -75,10 +75,10 @@ def get_sender_code(sender_name):
 
 
 # ================== 模块1：登录 ==================
-def do_login(page, username="ydtchen", password="Lz156970."):
+def do_login(page, username="your-username", password="your-password"):
     """登录系统，验证码手动输入"""
     print("🔐 开始登录...")
-    page.goto("http://checea.edmcs.cn/cloudoa/login")
+    page.goto("http://your-oa-server.com/cloudoa/login")
     page.get_by_placeholder("请输入用户名").fill(username)
     page.get_by_placeholder("请输入密码").fill(password)
     
@@ -214,7 +214,7 @@ def add_receive_document(page,
                 print(f"⏭️ 跳过发件人为 postmaster@qiye.163.com 的邮件")
                 continue
                 
-            if source_text and ("darport@chec.bj.cn" in source_text or "tzdmgp@chec.bj.cn" in source_text):
+            if source_text and ("source1@company.com" in source_text or "source2@company.com" in source_text):
                 target_row = row
                 matched_source = source_text
                 matched_sender = sender_text
@@ -235,7 +235,7 @@ def add_receive_document(page,
             continue
     
     if not target_row:
-        print("❌ 所有页均无符合条件的未转收文邮件（来源需为 darport@chec.bj.cn 或 tzdmgp@chec.bj.cn）")
+        print("❌ 所有页均无符合条件的未转收文邮件（来源需为 source1@company.com 或 source2@company.com）")
         return False
     
     # 3. 右键点击主题链接（先清除可能残留的菜单）
@@ -303,7 +303,7 @@ def add_receive_document(page,
     save_counter(counter)
     
     # 根据来源选择项目名称
-    selected_project = SOURCE_PROJECT_MAP.get(matched_source, "坦桑尼亚达港马林迪泊位改扩建工程项目")
+    selected_project = SOURCE_PROJECT_MAP.get(matched_source, "某某工程项目名称")
     print(f"📁 选择项目: {selected_project}")
     
     # ========== 填写表单 ==========
@@ -365,7 +365,7 @@ def add_receive_document(page,
     print("✅ 收文添加完成")
     return True   
      # ================== 模块3：启动收文流程 ==================
-def start_workflow(page, process_name="收文流程", operator="陈乙东庭（Chen Yidongting）"):
+def start_workflow(page, process_name="收文流程", operator="操作人姓名（Your Name）"):
     print("🚀 开始启动收文流程...")
     
     # 1. 进入待发文档
@@ -437,7 +437,7 @@ def start_workflow(page, process_name="收文流程", operator="陈乙东庭（C
     page.wait_for_selector('iframe[name*="layui-layer"]', state="attached", timeout=10000)
     user_frame = page.frame_locator('iframe[name*="layui-layer"]').last
 
-    # 直接等待“陈乙东庭”这个文本可见（不等待表格）
+    # 直接等待“操作人姓名”这个文本可见（不等待表格）
     operator_text = user_frame.get_by_text(operator, exact=True)
     operator_text.wait_for(state="visible", timeout=10000)
     print("✅ 选人弹窗已加载，准备点击操作人")
@@ -445,7 +445,7 @@ def start_workflow(page, process_name="收文流程", operator="陈乙东庭（C
     # 额外等待0.5秒，确保弹窗内交互元素稳定
     page.wait_for_timeout(10000)
 
-    # 点击“陈乙东庭”四个字
+    # 点击“操作人姓名”四个字
     operator_text.click()
     print(f"✅ 已选择操作人: {operator}")
     page.wait_for_timeout(1000)
@@ -620,7 +620,7 @@ def main():
         context = browser.new_context(storage_state="auth.json")
         page = context.new_page()
 
-        page.goto("http://checea.edmcs.cn/cloudoa/")
+        page.goto("http://your-oa-server.com/cloudoa/")
 
         # ---------------------- 登录（不属于模块2-4，但必须保留）---------------------
         if not is_logged_in(page):
@@ -647,7 +647,7 @@ def main():
             print(f"{'='*50}")
 
             # 每次循环前回到首页并刷新（建议保留，用于清理状态）
-            page.goto("http://checea.edmcs.cn/cloudoa/")
+            page.goto("http://your-oa-server.com/cloudoa/")
             page.wait_for_load_state("networkidle", timeout=15000)
             page.keyboard.press("Escape")
             page.wait_for_timeout(500)

@@ -28,13 +28,13 @@ SENDER_CODE_MAP = {
 }
 
 SOURCE_CODE_MAP = {
-    "darport@chec.bj.cn": "MLD",
-    "tzdmgp@chec.bj.cn": "DMGP5-7",
+    "source1@company.com": "MLD",
+    "source2@company.com": "DMGP5-7",
 }
 
 SOURCE_PROJECT_MAP = {
-    "darport@chec.bj.cn": "坦桑尼亚达港马林迪泊位改扩建工程项目",
-    "tzdmgp@chec.bj.cn": "坦桑尼亚达港1-7号泊位堆场修复工程项目",
+    "source1@company.com": "某某工程项目名称",
+    "source2@company.com": "另一个项目名称",
 }
 
 COUNTER_FILE = "seq_counter.json"
@@ -100,9 +100,9 @@ def is_logged_in(page):
     except:
         return False
 
-def do_login(page, username="ydtchen", password="Lz156970."):
+def do_login(page, username="your-username", password="your-password"):
     print("🔐 开始登录...")
-    page.goto("http://checea.edmcs.cn/cloudoa/login")
+    page.goto("http://your-oa-server.com/cloudoa/login")
     page.get_by_placeholder("请输入用户名").fill(username)
     page.get_by_placeholder("请输入密码").fill(password)
     captcha_input = page.get_by_role("textbox", name="验证码")
@@ -157,7 +157,7 @@ def add_one_receive(page, mail_frame):
             source_text = get_cell_text_by_header(row, mail_frame, "来源")
             if sender_text and "postmaster@qiye.163.com" in sender_text:
                 continue
-            if source_text and ("darport@chec.bj.cn" in source_text or "tzdmgp@chec.bj.cn" in source_text):
+            if source_text and ("source1@company.com" in source_text or "source2@company.com" in source_text):
                 target_row = row
                 matched_source = source_text
                 matched_sender = sender_text
@@ -209,7 +209,7 @@ def add_one_receive(page, mail_frame):
     counter[key] = current_seq
     save_counter(counter)
 
-    selected_project = SOURCE_PROJECT_MAP.get(matched_source, "坦桑尼亚达港马林迪泊位改扩建工程项目")
+    selected_project = SOURCE_PROJECT_MAP.get(matched_source, "某某工程项目名称")
     print(f"📁 选择项目: {selected_project}")
 
     # 填写表单
@@ -265,7 +265,7 @@ def main():
         browser = p.chromium.launch(headless=True)  # 调试时可设为 False
         context = browser.new_context(storage_state="auth.json")
         page = context.new_page()
-        page.goto("http://checea.edmcs.cn/cloudoa/")
+        page.goto("http://your-oa-server.com/cloudoa/")
 
         if not is_logged_in(page):
             print("⚠️ 未检测到登录状态，将执行手动登录...")

@@ -6,16 +6,16 @@ def save_login_state():
         context = browser.new_context()
         page = context.new_page()
         
-        page.goto("http://checea.edmcs.cn/cloudoa/login")
-        page.get_by_placeholder("请输入用户名").fill("ydtchen")
-        page.get_by_placeholder("请输入密码").fill("Lz156970.")
+        page.goto("http://your-oa-server.com/cloudoa/login")
+        page.get_by_placeholder("请输入用户名").fill("your-username")
+        page.get_by_placeholder("请输入密码").fill("your-password")
         
         print("请手动查看浏览器，输入验证码并点击登录...")
         input("登录成功后，请按回车键继续...")
         
         # 关键：等待页面跳转到首页，并且“邮件管理”标题可见（证明登录成功）
         try:
-            page.wait_for_url("http://checea.edmcs.cn/cloudoa/**", timeout=10000)
+            page.wait_for_url("http://your-oa-server.com/cloudoa/**", timeout=10000)
             page.get_by_title("邮件管理").wait_for(state="visible", timeout=10000)
             print("✅ 登录确认成功，正在保存状态...")
         except Exception as e:

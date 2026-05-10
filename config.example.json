@@ -1,0 +1,75 @@
+{
+  "login": {
+    "login_url": "http://your-oa-server.com/cloudoa/login",
+    "home_url":  "http://your-oa-server.com/cloudoa/",
+    "username":  "your-username",
+    "password":  "your-password",
+    "auth_file": "auth.json"
+  },
+
+  "browser": {
+    "headless": false,
+    "timeout_default": 30000,
+    "timeout_short":   10000,
+    "timeout_page":     8000,
+    "timeout_iframe":  45000
+  },
+
+  "loop": {
+    "repeat_count": 1000,
+    "run_module2": true,
+    "run_module3": true,
+    "run_module4": true
+  },
+
+  "retry": {
+    "max_retries": 2,
+    "retry_delay": 3
+  },
+
+  "email": {
+    "smtp_host":       "smtp.qq.com",
+    "smtp_port":       465,
+    "sender_email":    "",
+    "smtp_password":   "",
+    "recipient_email": ""
+  },
+
+  "files": {
+    "counter_file":   "seq_counter.json",
+    "log_file":       "oa_auto.log",
+    "screenshot_dir": "screenshots",
+    "status_file":    "status.json"
+  },
+
+  "business": {
+    "receive_type": "信函",
+    "send_unit":    "当地其他公司",
+    "send_method":  "E-MAIL",
+    "process_name": "收文流程",
+    "operator":     "操作人姓名（Name）",
+    "target_sources": [
+      "source1@company.com",
+      "source2@company.com"
+    ],
+    "skip_senders": [
+      "postmaster@qiye.163.com"
+    ]
+  },
+
+  "sender_code_map": [
+    {"sender": "发件人名称A", "code": "CODEA"},
+    {"sender": "发件人名称B", "code": "CODEB"},
+    {"sender": "发件人名称C", "code": "CODEC"}
+  ],
+
+  "source_code_map": [
+    {"source": "source1@company.com", "code": "SRC1"},
+    {"source": "source2@company.com", "code": "SRC2"}
+  ],
+
+  "source_project_map": [
+    {"source": "source1@company.com", "project": "某某工程项目名称"},
+    {"source": "source2@company.com", "project": "另一个项目名称"}
+  ]
+}

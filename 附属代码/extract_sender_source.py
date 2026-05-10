@@ -5,10 +5,10 @@ from collections import defaultdict
 from playwright.sync_api import sync_playwright
 
 # ================== 模块1：登录（复用原逻辑） ==================
-def do_login(page, username="ydtchen", password="Lz156970."):
+def do_login(page, username="your-username", password="your-password"):
     """登录系统，验证码手动输入"""
     print("🔐 开始登录...")
-    page.goto("http://checea.edmcs.cn/cloudoa/login")
+    page.goto("http://your-oa-server.com/cloudoa/login")
     page.get_by_placeholder("请输入用户名").fill(username)
     page.get_by_placeholder("请输入密码").fill(password)
 
@@ -86,7 +86,7 @@ def main():
         context = browser.new_context(storage_state="auth.json")
         page = context.new_page()
 
-        page.goto("http://checea.edmcs.cn/cloudoa/")
+        page.goto("http://your-oa-server.com/cloudoa/")
         if not is_logged_in(page):
             print("⚠️ 未检测到登录状态，将执行手动登录...")
             if not do_login(page):

@@ -29,10 +29,10 @@ from playwright.sync_api import sync_playwright, TimeoutError as PWTimeoutError
 # =====================================================================
 CONFIG = {
     # ---------- 登录 ----------
-    "login_url":       "http://checea.edmcs.cn/cloudoa/login",
-    "home_url":        "http://checea.edmcs.cn/cloudoa/",
-    "username":        "ydtchen",
-    "password":        "Lz156970.",
+    "login_url":       "http://your-oa-server.com/cloudoa/login",
+    "home_url":        "http://your-oa-server.com/cloudoa/",
+    "username":        "your-username",
+    "password":        "your-password",
     "auth_file":       "auth.json",
 
     # ---------- 超时（毫秒） ----------
@@ -52,9 +52,9 @@ CONFIG = {
     # ---------- 邮件通知 ----------
     "smtp_host":       "smtp.qq.com",
     "smtp_port":       465,
-    "sender_email":    "1774316986@qq.com",
-    "smtp_password":   "fummtmoxbexbfbfg",
-    "recipient_email": "lz156970@gmail.com",
+    "sender_email":    "your-email@qq.com",
+    "smtp_password":   "your-smtp-auth-code",
+    "recipient_email": "recipient@email.com",
 
     # ---------- 文件路径 ----------
     "counter_file":    "seq_counter.json",
@@ -66,8 +66,8 @@ CONFIG = {
     "send_unit":       "当地其他公司",
     "send_method":     "E-MAIL",
     "process_name":    "收文流程",
-    "operator":        "陈乙东庭（Chen Yidongting）",
-    "target_sources":  ["darport@chec.bj.cn", "tzdmgp@chec.bj.cn"],
+    "operator":        "操作人姓名（Your Name）",
+    "target_sources":  ["source1@company.com", "source2@company.com"],
     "skip_senders":    ["postmaster@qiye.163.com"],
 }
 
@@ -90,13 +90,13 @@ SENDER_CODE_MAP = {
 }
 
 SOURCE_CODE_MAP = {
-    "darport@chec.bj.cn":  "MLD",
-    "tzdmgp@chec.bj.cn":   "DMGP5-7",
+    "source1@company.com":  "MLD",
+    "source2@company.com":   "DMGP5-7",
 }
 
 SOURCE_PROJECT_MAP = {
-    "darport@chec.bj.cn":  "坦桑尼亚达港马林迪泊位改扩建工程项目",
-    "tzdmgp@chec.bj.cn":   "坦桑尼亚达港1-7号泊位堆场修复工程项目",
+    "source1@company.com":  "某某工程项目名称",
+    "source2@company.com":   "另一个项目名称",
 }
 
 # =====================================================================
@@ -389,7 +389,7 @@ def add_receive_document(page) -> bool:
     # 5. 生成动态编号
     doc_code = generate_doc_code(matched_source, matched_sender, counter)
     selected_project = SOURCE_PROJECT_MAP.get(
-        matched_source, "坦桑尼亚达港马林迪泊位改扩建工程项目")
+        matched_source, "某某工程项目名称")
     log.info(f"📝 发信方编码: {doc_code}  |  项目: {selected_project}")
 
     # 6. 填写表单

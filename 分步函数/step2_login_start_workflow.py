@@ -10,9 +10,9 @@ def is_logged_in(page):
     except:
         return False
 
-def do_login(page, username="ydtchen", password="Lz156970."):
+def do_login(page, username="your-username", password="your-password"):
     print("🔐 开始登录...")
-    page.goto("http://checea.edmcs.cn/cloudoa/login")
+    page.goto("http://your-oa-server.com/cloudoa/login")
     page.get_by_placeholder("请输入用户名").fill(username)
     page.get_by_placeholder("请输入密码").fill(password)
     captcha_input = page.get_by_role("textbox", name="验证码")
@@ -26,7 +26,7 @@ def do_login(page, username="ydtchen", password="Lz156970."):
     return True
 
 # ================== 模块3：启动流程 ==================
-def start_workflow(page, process_name="收文流程", operator="陈乙东庭（Chen Yidongting）"):
+def start_workflow(page, process_name="收文流程", operator="操作人姓名（Your Name）"):
     print("🚀 开始启动收文流程...")
     
     # 1. 进入待发文档
@@ -117,7 +117,7 @@ def main():
         browser = p.chromium.launch(headless=False)  # 建议设为 False 便于观察
         context = browser.new_context(storage_state="auth.json")
         page = context.new_page()
-        page.goto("http://checea.edmcs.cn/cloudoa/")
+        page.goto("http://your-oa-server.com/cloudoa/")
         
         if not is_logged_in(page):
             print("⚠️ 未检测到登录状态，将执行手动登录...")
